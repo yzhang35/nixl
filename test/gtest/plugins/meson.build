@@ -17,6 +17,10 @@ if enabled_plugins.get('UCCL')
     subdir('uccl')
 endif
 
+if enabled_plugins.get('FLAGCX')
+    subdir('flagcx')
+endif
+
 if enabled_plugins.get('AZURE_BLOB')
     subdir('azure_blob')
 endif
