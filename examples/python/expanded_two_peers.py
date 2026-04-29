@@ -105,12 +105,7 @@ if __name__ == "__main__":
             # Send transfer relevant information to the initiator.
             agent.send_notif(
                 "initiator",
-                pickle.dumps(
-                    (
-                        target_desc_str,
-                        (base_addr, tensors, tensor_size, dev_id, mem_str),
-                    )
-                ),
+                pickle.dumps((base_addr, tensors, tensor_size, dev_id, mem_str)),
             )
         except Exception as e:
             logger.exception(
@@ -163,10 +158,15 @@ if __name__ == "__main__":
             agent.fetch_remote_metadata("target", args.ip, args.port)
 
             notifs = agent.get_new_notifs()
-            while len(notifs) == 0:
+            while len(notifs) == 0 or "target" not in notifs:
                 notifs = agent.get_new_notifs()
-            target_descs_ser, layout_info = pickle.loads(notifs["target"][0])
-            target_descs = agent.deserialize_descs(target_descs_ser)
+            layout_info = pickle.loads(notifs["target"][0])
+            base_addr, tensors_n, tensor_size, remote_dev, remote_mem = layout_info
+            remote_tuples = [
+                (base_addr + i * tensor_size, tensor_size, remote_dev)
+                for i in range(tensors_n)
+            ]
+            target_descs = agent.get_xfer_descs(remote_tuples, mem_type=remote_mem)
 
             # Ensure remote metadata has arrived from fetch, required to generate transfer handles
             ready = False
@@ -216,7 +216,6 @@ if __name__ == "__main__":
         #    NIXL prepares and maps in one step. As an example, randomly select which half of each tensor to write, using 2 descriptors per transfer.
         write_handles = []
         # Build local/remote descriptors for both WRITE requests
-        base_addr, tensors, tensor_size, remote_dev, remote_mem = layout_info
         local_mem = "cuda" if str(tensor.device).startswith("cuda") else "cpu"
         local_dev = tensor.get_device()
         if local_dev == -1:
