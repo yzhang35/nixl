@@ -38,7 +38,6 @@ namespace nixl {
         nixl_mem_list_t mems;
         status = agent.getPluginParams(*it, mems, params);
         EXPECT_EQ(NIXL_SUCCESS, status);
-        params["in_python"] = "0";
         nixlBackendH *backend_handle = nullptr;
         status = agent.createBackend(*it, params, backend_handle);
         EXPECT_EQ(NIXL_SUCCESS, status);

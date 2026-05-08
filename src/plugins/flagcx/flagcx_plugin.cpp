@@ -20,10 +20,7 @@
 namespace {
 nixl_b_params_t
 get_flagcx_options() {
-    nixl_b_params_t params;
-    params["in_python"] = "";
-    params["num_cpus"] = "";
-    return params;
+    return nixl_b_params_t{};
 }
 } // namespace
 

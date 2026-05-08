@@ -72,35 +72,13 @@ parseConnectionString(const std::string &conn_str,
     return true;
 }
 
-int
-getNixlParam(const nixl_b_params_t *custom_params, const std::string &key, int default_value) {
-    if (!custom_params) {
-        return default_value;
-    }
-
-    auto it = custom_params->find(key);
-    if (it == custom_params->end()) {
-        return default_value;
-    }
-
-    try {
-        return std::stoi(it->second);
-    }
-    catch (const std::exception &) {
-        return default_value;
-    }
-}
-
 nixlFlagcxEngine::nixlFlagcxEngine(const nixlBackendInitParams *init_params)
     : nixlBackendEngine(init_params),
       stop_listener_(false) {
 
     local_agent_name_ = init_params->localAgent;
-    nixl_b_params_t *custom_params = init_params->customParams;
 
-    size_t num_cpus = getNixlParam(custom_params, "num_cpus", 4);
-    int in_python = getNixlParam(custom_params, "in_python", 1);
-    engine_ = flagcxP2pEngineCreate(num_cpus, (in_python == 1));
+    engine_ = flagcxP2pEngineCreate();
     NIXL_DEBUG << "FlagCX P2P engine created";
 
     listener_thread_ = std::thread(&nixlFlagcxEngine::startListener, this);
