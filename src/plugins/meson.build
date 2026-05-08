@@ -91,11 +91,11 @@ if enabled_plugins.get('UCCL')
     endif
 endif
 
-libflagcx_p2p = cc.find_library('flagcx_p2p', required: false)
+libflagcx = cc.find_library('flagcx', required: false)
 if enabled_plugins.get('FLAGCX')
-    if not libflagcx_p2p.found() and is_explicit_enable
-        error('FLAGCX plugin requested but flagcx_p2p library not found')
-    elif libflagcx_p2p.found()
+    if not libflagcx.found() and is_explicit_enable
+        error('FLAGCX plugin requested but flagcx library not found')
+    elif libflagcx.found()
         subdir('flagcx')
     endif
 endif

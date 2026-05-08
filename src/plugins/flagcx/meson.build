@@ -19,7 +19,7 @@ compile_flags = []
 if 'FLAGCX' in static_plugins
     flagcx_backend_lib = static_library('FLAGCX',
                'flagcx_backend.cpp', 'flagcx_backend.h', 'flagcx_plugin.cpp',
-               dependencies: [nixl_infra, serdes_interface, cuda_dep, libflagcx_p2p, nixl_common_dep],
+               dependencies: [nixl_infra, serdes_interface, cuda_dep, libflagcx, nixl_common_dep],
                include_directories: nixl_inc_dirs,
                install: false,
                cpp_args : compile_flags,
@@ -27,7 +27,7 @@ if 'FLAGCX' in static_plugins
 else
     flagcx_backend_lib = shared_library('FLAGCX',
                'flagcx_backend.cpp', 'flagcx_backend.h', 'flagcx_plugin.cpp',
-               dependencies: [nixl_infra, serdes_interface, cuda_dep, libflagcx_p2p, nixl_common_dep],
+               dependencies: [nixl_infra, serdes_interface, cuda_dep, libflagcx, nixl_common_dep],
                include_directories: [nixl_inc_dirs, utils_inc_dirs],
                install: true,
                cpp_args : compile_flags + ['-fPIC'],

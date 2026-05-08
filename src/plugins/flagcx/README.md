@@ -8,9 +8,9 @@ Currently, the FlagCX P2P backend supports internode communication over RDMA. In
 
 ## Installation Guide
 
-1. Build and install the FlagCX P2P engine library (`libflagcx_p2p`).
+1. Build and install the FlagCX library (`libflagcx`), which includes the P2P engine.
 
-2. Build NIXL using regular method as in [README](https://github.com/ai-dynamo/nixl/blob/main/README.md). The FlagCX plugin is auto-discovered when `libflagcx_p2p` is found.
+2. Build NIXL using regular method as in [README](https://github.com/ai-dynamo/nixl/blob/main/README.md). The FlagCX plugin is auto-discovered when `libflagcx` is found.
 
 ## Usage Guide
 

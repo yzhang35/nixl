@@ -14,11 +14,11 @@
 
 cpp = meson.get_compiler('cpp')
 
-flagcx_lib = cpp.find_library('flagcx_p2p', dirs: ['/usr/local/lib'], required: false)
+flagcx_lib = cpp.find_library('flagcx', dirs: ['/usr/local/lib'], required: false)
 flagcx_rdma_lib = cpp.find_library('rdma_plugin', dirs: ['/usr/local/lib'], required: false)
 
 if not flagcx_lib.found() or not flagcx_rdma_lib.found()
-    message('FlagCX P2P libraries not found, skipping flagcx_gtest build')
+    message('FlagCX libraries not found, skipping flagcx_gtest build')
     subdir_done()
 endif
 
