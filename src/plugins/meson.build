@@ -91,6 +91,15 @@ if enabled_plugins.get('UCCL')
     endif
 endif
 
+libflagcx = cc.find_library('flagcx', required: false)
+if enabled_plugins.get('FLAGCX')
+    if not libflagcx.found() and is_explicit_enable
+        error('FLAGCX plugin requested but flagcx library not found')
+    elif libflagcx.found()
+        subdir('flagcx')
+    endif
+endif
+
 hf3fs_lib_path = '/usr/lib/'
 hf3fs_lib_file = 'hf3fs_api_shared'
 hf3fs_lib_found = cc.find_library(hf3fs_lib_file, dirs: [hf3fs_lib_path], required: false)
